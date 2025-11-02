@@ -7,11 +7,16 @@ const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
-  const links = ['Home', 'About', 'Portfolio', 'Contact'];
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Portfolio', path: '/portfolio' },
+    { name: 'Contact', path: '/contact' }
+  ];
   
   const isActive = (path: string) => {
-    if (path === 'home' && location.pathname === '/') return true;
-    return location.pathname === `/${path.toLowerCase()}`;
+    if (path === '/' && (location.pathname === '/' || location.pathname === '/home')) return true;
+    return location.pathname === path;
   };
 
   return (
@@ -19,7 +24,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
-          <Link to="/home">
+          <Link to="/">
           <img
             src="/assets/logo.jpeg"
             alt="Baron's Artistry Photography"
@@ -36,15 +41,15 @@ const Navbar: React.FC = () => {
 
         {/* Desktop Links */}
         <nav className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
+          {navLinks.map((link) => (
             <Link
-              key={link}
-              to={`/${link.toLowerCase()}`}
+              key={link.name}
+              to={link.path}
               className={`text-sm uppercase tracking-wide transition-colors ${
-                isActive(link) ? 'text-amber-600 font-medium' : 'text-gray-700 hover:text-amber-600'
+                isActive(link.path) ? 'text-amber-600 font-medium' : 'text-gray-700 hover:text-amber-600'
               }`}
             >
-              {link}
+              {link.name}
             </Link>
           ))}
         </nav>
@@ -69,16 +74,16 @@ const Navbar: React.FC = () => {
           className="md:hidden bg-white border-t border-gray-200"
         >
           <div className="flex flex-col items-center py-4 space-y-3">
-            {links.map((link) => (
+            {navLinks.map((link) => (
               <Link
-                key={link}
-                to={`/${link.toLowerCase()}`}
+                key={link.name}
+                to={link.path}
                 onClick={() => setOpen(false)}
                 className={`text-sm uppercase tracking-wider transition-colors ${
-                  isActive(link) ? 'text-amber-600 font-medium' : 'text-gray-700 hover:text-amber-600'
+                  isActive(link.path) ? 'text-amber-600 font-medium' : 'text-gray-700 hover:text-amber-600'
                 }`}
               >
-                {link}
+                {link.name}
               </Link>
             ))}
           </div>
